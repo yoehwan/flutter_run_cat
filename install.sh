@@ -3,9 +3,9 @@
 
 APP_NAME="flutter_run_cat"
 
-RELEASE="https://github.com/yoehwan/flutter_run_cat/releases/download/v1.0.0/"
+RELEASE="https://github.com/yoehwan/flutter_run_cat/releases/download/v1.0.1/"
 
-RELEASE_NAME="Run.Cat.v1.0.0.x64.linux.tar.xz"
+RELEASE_NAME="Run.Cat.v1.0.1.x64.linux.tar.xz"
 
 OUTPUT="/usr/lib/$APP_NAME"
 
