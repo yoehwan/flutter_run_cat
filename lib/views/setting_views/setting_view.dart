@@ -99,7 +99,7 @@ class _StateSettingView extends State<SettingView>
           GeneralView(),
           SystemInfoView(),
           VersionView(),
-          // RegistrationView(),
+          RegistrationView(),
         ],
       ),
     );
@@ -109,8 +109,8 @@ class _StateSettingView extends State<SettingView>
   Widget build(BuildContext context) {
     return Scaffold(
       body: WindowBorder(
-        color: Colors.blue,
-        width: 2,
+        color: Colors.transparent,
+        width: 0,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
