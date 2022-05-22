@@ -9,13 +9,20 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
 
   Widget _runnerItemListView() {
     Widget _itemHeadView() {
+      Widget _item(String? item) {
+        if (item == null) {
+          return Text("@@@");
+        }
+        return Image.file(File(item!));
+      }
+
       return Row(
         children: [
           ColoredBox(
             color: Colors.red,
             child: SizedBox.square(
               dimension: 80,
-              child: Icon(Icons.onetwothree, size: 50),
+              child: _item(null),
             ),
           ),
           Padding(
