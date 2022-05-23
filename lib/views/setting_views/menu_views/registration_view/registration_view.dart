@@ -9,11 +9,12 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
 
   Widget _runnerItemListView() {
     Widget _itemHeadView() {
-      Widget _item(String? item) {
-        if (item == null) {
-          return Text("@@@");
+      Widget _item() {
+        final headItem = viewModel.runnerHeadItem;
+        if (headItem.isEmpty) {
+          return Icon(Icons.close);
         }
-        return Image.file(File(item!));
+        return Image.file(File(headItem));
       }
 
       return Row(
@@ -22,7 +23,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
             color: Colors.red,
             child: SizedBox.square(
               dimension: 80,
-              child: _item(null),
+              child: _item(),
             ),
           ),
           Padding(
@@ -30,7 +31,14 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.play_arrow),
+                GestureDetector(
+                  onTap: viewModel.onTapStart,
+                  child: Icon(Icons.play_arrow),
+                ),
+                GestureDetector(
+                  onTap: viewModel.onTapPause,
+                  child: Icon(Icons.pause),
+                ),
               ],
             ),
           ),
@@ -39,7 +47,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
     }
 
     Widget _itemListView() {
-      final itemList = viewModel.imageList;
+      final itemList = viewModel.itemList;
       Widget _image(int index, double size) {
         Widget _badge() {
           return GestureDetector(
@@ -63,9 +71,14 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
           badgeColor: Colors.transparent,
           padding: EdgeInsets.zero,
           badgeContent: _badge(),
-          child: SizedBox.square(
-            dimension: size,
-            child: Image.file(File(itemPath)),
+          child: Column(
+            children: [
+              SizedBox.square(
+                dimension: size,
+                child: Image.file(File(itemPath)),
+              ),
+              Text(itemPath.split("/").last),
+            ],
           ),
         );
       }
@@ -83,7 +96,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
       return LayoutBuilder(builder: (_, constraitns) {
         final _width = constraitns.maxWidth;
         final _height = constraitns.maxHeight;
-        final _minSide = min(_width / 5, _height);
+        final _minSide = min(_width / 6, _height);
         return DecoratedBox(
           decoration: BoxDecoration(
             border: Border.all(color: lightGrey),
@@ -91,19 +104,17 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
           child: SizedBox(
             width: _width,
             height: _height,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ReorderableWrap(
-                runSpacing: 8,
-                spacing: 8,
-                ignorePrimaryScrollController: true,
-                footer: _addIconButton(_minSide),
-                children: [
-                  for (int index = 0; index < itemList.length; index++)
-                    _image(index, _minSide),
-                ],
-                onReorder: viewModel.reorderRunnerImage,
-              ),
+            child: ReorderableWrap(
+              padding: const EdgeInsets.all(16),
+              runSpacing: 8,
+              spacing: 8,
+              ignorePrimaryScrollController: true,
+              footer: _addIconButton(_minSide),
+              children: [
+                for (int index = 0; index < itemList.length; index++)
+                  _image(index, _minSide),
+              ],
+              onReorder: viewModel.reorderRunnerImage,
             ),
           ),
         );

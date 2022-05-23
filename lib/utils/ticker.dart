@@ -16,6 +16,7 @@ class Ticker {
   }
 
   bool _trigger = false;
+  bool get isActivate => _trigger;
   int _tick = 0;
 
   void _run() async {

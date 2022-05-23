@@ -10,6 +10,7 @@ import 'package:flutter_run_cat/enums/setting_item_type.dart';
 import 'package:flutter_run_cat/enums/setting_type.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/models/settings/setting_item.dart';
+import 'package:flutter_run_cat/utils/ticker.dart';
 import 'menu_view.dart';
 
 part 'general_view/general_view_model.dart';

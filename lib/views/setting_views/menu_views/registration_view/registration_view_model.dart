@@ -18,9 +18,44 @@ class RegistrationViewModel extends MenuViewModel {
     settingController.update([runnerItemViewID]);
   }
 
-  List<String> imageList = [];
+  List<String> itemList = [];
 
-  void reorderRunnerImage(int oldIndex, int newIndex) {}
+  final Ticker _itemTicker = Ticker();
+  int itemIndex = 0;
+  Future _onTick(int index) async {
+    final _list = itemList;
+    final _len = _list.length;
+    if (_len <= 1) return;
+    itemIndex = index % _len;
+    updateRunnerItemView();
+  }
+
+  String get runnerHeadItem {
+    if (itemList.isEmpty) return "";
+    return itemList[itemIndex];
+  }
+
+  void onTapStart() {
+    onTapPause();
+    _itemTicker.start(
+      duration: Duration(milliseconds: 200),
+      onTick: _onTick,
+    );
+  }
+
+  void onTapPause() {
+    if (_itemTicker.isActivate) _itemTicker.dispose();
+    itemIndex = 0;
+  }
+
+  void reorderRunnerImage(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    final String item = itemList.removeAt(oldIndex);
+    itemList.insert(newIndex, item);
+    updateRunnerItemView();
+  }
 
   void addRunderImage() async {
     final _res = await FilePicker.platform.pickFiles(
@@ -30,7 +65,7 @@ class RegistrationViewModel extends MenuViewModel {
       allowMultiple: true,
     );
     if (_res == null) return;
-    imageList.addAll(_res.files.map((e) => e.path!));
+    itemList.addAll(_res.files.map((e) => e.path!));
     updateRunnerItemView();
   }
 
@@ -38,8 +73,7 @@ class RegistrationViewModel extends MenuViewModel {
   Future updateSetting(SettingItem item) async {}
 
   void onTapDelete(int index) {
-    print(index);
-    imageList.removeAt(index);
+    itemList.removeAt(index);
     updateRunnerItemView();
   }
 }
