@@ -8,6 +8,7 @@ import 'package:flutter_run_cat/controllers/setting_controller/setting_controlle
 import 'package:flutter_run_cat/controllers/version_controller/version_controller.dart';
 import 'package:flutter_run_cat/enums/setting_item_type.dart';
 import 'package:flutter_run_cat/enums/setting_type.dart';
+import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/models/settings/setting_item.dart';
 import 'package:flutter_run_cat/utils/ticker.dart';

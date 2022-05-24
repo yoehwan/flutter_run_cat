@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_run_cat/consts.dart';
 import 'package:flutter_run_cat/controllers/controllers.dart';
+import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/utils/setting_helper.dart';
 import 'package:flutter_run_cat/utils/window_helper_mixin.dart';
@@ -25,6 +26,10 @@ class SettingController extends Controller with WindonwHelperMixin {
 
   void updateStartUpLaunch(bool value) {
     _settingHelper.updateStartUpLaunch(value);
+  }
+
+  List<Runner> loadRunnerList() {
+    return _settingHelper.loadRunnerList();
   }
 
   /// View

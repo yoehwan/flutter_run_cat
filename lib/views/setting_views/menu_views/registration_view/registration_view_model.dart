@@ -8,7 +8,21 @@ class RegistrationViewModel extends MenuViewModel {
       settingController.loadSetting(SettingType.registration.index) ??
       RegistrationSetting(itemList: []);
 
-  List<String> runnerList = ["1", "2", "3"];
+  final List<Runner> runnerList = [];
+  List<String> get runnerTitleList => runnerList.map((e) => e.title).toList();
+  @override
+  void ready() {
+    loadRunnerList();
+    super.ready();
+  }
+
+  void loadRunnerList() {
+    if (runnerList.isNotEmpty) {
+      runnerList.clear();
+    }
+    final _res = settingController.loadRunnerList();
+    runnerList.addAll(_res);
+  }
 
   void reorderRunnerList(int oldIndex, int newIndex) {}
 
@@ -19,7 +33,6 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   List<String> itemList = [];
-
   final Ticker _itemTicker = Ticker();
   int itemIndex = 0;
   Future _onTick(int index) async {

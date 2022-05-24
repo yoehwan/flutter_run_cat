@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_impl.dart';
 import 'package:flutter_run_cat/use_cases/setting_use_case/setting_use_case.dart';
@@ -16,7 +17,6 @@ class SettingHelper {
   final SettingUseCase _useCase = SettingUseCase(SettingImpl());
 
   Setting? loadSetting(int typeIndex) {
-    final _res = _useCase.loadSetting(typeIndex);
     return _useCase.loadSetting(typeIndex);
   }
 
@@ -46,4 +46,10 @@ class SettingHelper {
   void updateStartUpLaunch(bool value) {
     _useCase.updateStartUpLaunch(value);
   }
+
+  List<Runner> loadRunnerList() {
+    return _useCase.loadRunnerList();
+  }
+
+  Future updateRunner(Runner runner, List<String> itemList) async {}
 }

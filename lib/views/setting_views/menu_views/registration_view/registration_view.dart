@@ -12,19 +12,16 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
       Widget _item() {
         final headItem = viewModel.runnerHeadItem;
         if (headItem.isEmpty) {
-          return Icon(Icons.close);
+          return Center(child: Text("No Image"));
         }
         return Image.file(File(headItem));
       }
 
       return Row(
         children: [
-          ColoredBox(
-            color: Colors.red,
-            child: SizedBox.square(
-              dimension: 80,
-              child: _item(),
-            ),
+          SizedBox.square(
+            dimension: 80,
+            child: _item(),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -49,6 +46,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
     Widget _itemListView() {
       final itemList = viewModel.itemList;
       Widget _image(int index, double size) {
+        ///TODO: Fix badge HitTestBoundary
         Widget _badge() {
           return GestureDetector(
             onTap: () {
@@ -65,6 +63,8 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
         }
 
         final itemPath = itemList[index];
+        final isHeadItem = index == viewModel.itemIndex;
+        final _style = TextStyle(color: (isHeadItem) ? lightBlue : null);
         return Badge(
           toAnimate: false,
           elevation: 1,
@@ -77,7 +77,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
                 dimension: size,
                 child: Image.file(File(itemPath)),
               ),
-              Text(itemPath.split("/").last),
+              Text(itemPath.split("/").last, style: _style),
             ],
           ),
         );
@@ -128,11 +128,11 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text("Runner Images"),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Runner Images"),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: _itemHeadView(),
               ),
-              _itemHeadView(),
               Expanded(child: _itemListView()),
             ],
           ),
@@ -154,9 +154,9 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
             Text("Runner List"),
             Expanded(
               child: ReorderableListView.builder(
-                itemCount: viewModel.runnerList.length,
+                itemCount: viewModel.runnerTitleList.length,
                 itemBuilder: (_, index) {
-                  final item = viewModel.runnerList[index];
+                  final item = viewModel.runnerTitleList[index];
                   return SizedBox(
                     key: ValueKey(item),
                     child: Text(item),

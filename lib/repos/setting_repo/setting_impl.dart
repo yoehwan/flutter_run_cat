@@ -9,12 +9,10 @@ class SettingImpl extends SettingRepo {
   @override
   Future init() async {
     await _box.openBox();
-    // await _box.clearBox();
   }
 
   @override
   Future<bool> updateSetting(int typeIndex, Map<String, dynamic> data) async {
-    // notifyListeners(typeIndex);
     return _box.update(typeIndex, data);
   }
 
@@ -43,7 +41,7 @@ class SettingImpl extends SettingRepo {
 
   @override
   void updateStartUpLaunch(bool value) async {
-    final file = File("$config/autostart/flutter_run_cat.desktop");
+    final file = File("$autoStartPath/flutter_run_cat.desktop");
     if (file.existsSync()) {
       if (!value) {
         file.delete();
@@ -52,6 +50,28 @@ class SettingImpl extends SettingRepo {
       if (value) {
         file.writeAsString(autoStartDeskTop);
       }
+    }
+  }
+
+  final _runnerDir = Directory(assetPath);
+
+  @override
+  List<FileSystemEntity> loadRunnerList() {
+    if (!_runnerDir.existsSync()) {
+      _runnerDir.create();
+      return [];
+    }
+    return _runnerDir.listSync();
+  }
+
+  @override
+  Future updateRunner(String name, List<String> itemList) async {
+    final _runnerFolder = Directory("$assetPath/name");
+    await _runnerFolder.create();
+    for (int index = 0; index < itemList.length; index++) {
+      final item = itemList[index];
+      final file = File(item);
+      await file.copy("${_runnerFolder.path}/$index.png");
     }
   }
 }
