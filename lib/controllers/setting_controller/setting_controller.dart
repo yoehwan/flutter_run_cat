@@ -32,6 +32,10 @@ class SettingController extends Controller with WindonwHelperMixin {
     return _settingHelper.loadRunnerList();
   }
 
+  Future updateRunner(String name, List<String> itemList) async {
+     await _settingHelper.updateRunner(name, itemList);
+  }
+
   /// View
   final String generalViewID = "generalViewID";
   void updateGeneralView() {

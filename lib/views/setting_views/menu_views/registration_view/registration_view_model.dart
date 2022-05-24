@@ -3,10 +3,17 @@ part of menu_view_model;
 class RegistrationViewModel extends MenuViewModel {
   @override
   String get viewID => "RegistrationViewID";
+  final String runnerListViewID = "runnerListViewID";
+
+  void updateRunnerListView() {
+    settingController.update([runnerListViewID]);
+  }
 
   Setting get loadSetting =>
       settingController.loadSetting(SettingType.registration.index) ??
       RegistrationSetting(itemList: []);
+
+  final TextEditingController nameController = TextEditingController();
 
   final List<Runner> runnerList = [];
   List<String> get runnerTitleList => runnerList.map((e) => e.title).toList();
@@ -88,5 +95,13 @@ class RegistrationViewModel extends MenuViewModel {
   void onTapDelete(int index) {
     itemList.removeAt(index);
     updateRunnerItemView();
+  }
+
+  void onTapSave() async {
+    final _name = nameController.text;
+    print(_name);
+    await settingController.updateRunner(_name, []);
+    loadRunnerList();
+    updateRunnerListView();
   }
 }

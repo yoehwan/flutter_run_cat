@@ -142,47 +142,60 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
   }
 
   Widget _runnerListView() {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        // borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: lightGrey),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-        child: Column(
-          children: [
-            Text("Runner List"),
-            Expanded(
-              child: ReorderableListView.builder(
-                itemCount: viewModel.runnerTitleList.length,
-                itemBuilder: (_, index) {
-                  final item = viewModel.runnerTitleList[index];
-                  return SizedBox(
-                    key: ValueKey(item),
-                    child: Text(item),
-                  );
-                },
-                onReorder: viewModel.reorderRunnerList,
-              ),
+    return GetBuilder<SettingController>(
+      id: viewModel.runnerItemViewID,
+      builder: (_) {
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: lightGrey),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+            child: Column(
+              children: [
+                Text("Runner List"),
+                Expanded(
+                  child: ReorderableListView.builder(
+                    itemCount: viewModel.runnerTitleList.length,
+                    itemBuilder: (_, index) {
+                      final item = viewModel.runnerTitleList[index];
+                      return SizedBox(
+                        key: ValueKey(item),
+                        child: Text(item),
+                      );
+                    },
+                    onReorder: viewModel.reorderRunnerList,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
   Widget _runnerNameField() {
     return Row(
       children: [
-        Text("Runner Name :"),
+        Text("Runner Name :  "),
         Expanded(
           child: TextField(
+            controller: viewModel.nameController,
             decoration: InputDecoration(
               hintText: "Input Runner Name",
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _saveButton() {
+    return ElevatedButton(
+      onPressed: viewModel.onTapSave,
+      child: Text("Save"),
     );
   }
 
@@ -201,6 +214,13 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
             children: [
               _runnerNameField(),
               _runnerItemListView(),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _saveButton(),
+                ),
+              ),
             ],
           ),
         ),
