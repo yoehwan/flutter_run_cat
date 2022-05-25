@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_run_cat/consts.dart';
 import 'package:flutter_run_cat/databases/local_box.dart';
+import 'package:flutter_run_cat/databases/setting_box.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_repo.dart';
 
 class SettingImpl extends SettingRepo {
@@ -24,12 +25,12 @@ class SettingImpl extends SettingRepo {
   final List<Function(int typeIndex)> listenerList = [];
 
   @override
-  void addSettingListener(Function(int typeIndex) listener) {
+  void addSettingListener(BoxCallback listener) {
     _box.addListener(listener);
   }
 
   @override
-  void removeSettingListener(Function(int typeIndex) listener) {
+  void removeSettingListener(BoxCallback listener) {
     _box.removeListener(listener);
   }
 
@@ -56,7 +57,7 @@ class SettingImpl extends SettingRepo {
   final _runnerDir = Directory(assetPath);
 
   @override
-  List<FileSystemEntity> loadRunnerList() {
+  List<dynamic> loadRunnerList() {
     if (!_runnerDir.existsSync()) {
       _runnerDir.create();
       return [];

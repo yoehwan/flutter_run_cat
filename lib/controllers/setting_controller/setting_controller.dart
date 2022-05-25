@@ -33,7 +33,7 @@ class SettingController extends Controller with WindonwHelperMixin {
   }
 
   Future updateRunner(String name, List<String> itemList) async {
-     await _settingHelper.updateRunner(name, itemList);
+     // await _settingHelper.updateRunner(name, itemList);
   }
 
   /// View

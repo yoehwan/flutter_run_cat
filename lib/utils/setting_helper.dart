@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_run_cat/databases/local_box.dart';
 import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_impl.dart';
@@ -35,11 +36,11 @@ class SettingHelper {
     return _useCase.updateSetting(setting);
   }
 
-  void addSettingListener(Function(int typeIndex) listener) {
+  void addSettingListener(BoxCallback listener) {
     _useCase.addSettingListener(listener);
   }
 
-  void removeSettingListener(Function(int typeIndex) listener) {
+  void removeSettingListener(BoxCallback listener) {
     _useCase.removeSettingListener(listener);
   }
 

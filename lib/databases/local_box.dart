@@ -4,7 +4,8 @@ import 'dart:async';
 
 import 'package:flutter_run_cat/consts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-part 'setting_box.dart';
+
+typedef BoxCallback = Function(dynamic index, dynamic value);
 
 abstract class LocalBox {
   static Future init() async {
@@ -16,8 +17,6 @@ abstract class LocalBox {
 
   Future openBox() async {
     box = await Hive.openBox(boxID);
-
-    // await box.clear();
   }
 
   Future closebox() async {
@@ -26,5 +25,38 @@ abstract class LocalBox {
 
   Future clearBox() async {
     await box.clear();
+  }
+}
+
+mixin ListenableBoxMixin on LocalBox {
+  late StreamSubscription _subscription;
+  @override
+  Future openBox() async {
+    await super.openBox();
+    _subscription = box.watch().listen((e) {
+      notifyListeners(e.key, e.value);
+    });
+  }
+
+  void closeBox() {
+    _subscription.cancel();
+    super.closebox();
+  }
+
+  final List<BoxCallback> listenerList = [];
+
+  void addListener(BoxCallback listener) {
+    if (listenerList.contains(listener)) return;
+    listenerList.add(listener);
+  }
+
+  void removeListener(BoxCallback listener) {
+    listenerList.remove(listener);
+  }
+
+  void notifyListeners(dynamic index, dynamic value) {
+    for (final listener in listenerList) {
+      listener(index, value);
+    }
   }
 }

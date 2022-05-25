@@ -121,7 +121,7 @@ class TrayController extends Controller with WindonwHelperMixin {
     _iconTicker.update(duration: _iconDuration());
   }
 
-  void settingListener(int typeIndex) {
+  void settingListener(dynamic typeIndex, dynamic value) {
     final type = SettingType.values[typeIndex];
     switch (type) {
       case SettingType.general:

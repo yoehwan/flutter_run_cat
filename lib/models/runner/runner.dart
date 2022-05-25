@@ -22,7 +22,7 @@ class Runner {
   }
 
   factory Runner.fromMap(dynamic map) {
-    final _map = Map<String, dynamic>.from(map);
+    final Map<String, dynamic> _map = Map<String, dynamic>.from(map);
     return Runner(
       index: _map["index"],
       name: _map["name"],

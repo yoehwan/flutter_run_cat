@@ -1,3 +1,4 @@
+import 'package:flutter_run_cat/databases/local_box.dart';
 import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_repo.dart';
@@ -6,11 +7,11 @@ import 'package:flutter_run_cat/use_cases/use_case.dart';
 class SettingUseCase extends UseCase<SettingRepo> {
   SettingUseCase(SettingRepo repo) : super(repo);
 
-  void addSettingListener(Function(int typeIndex) listener) {
+  void addSettingListener(BoxCallback listener) {
     repo.addSettingListener(listener);
   }
 
-  void removeSettingListener(Function(int typeIndex) listener) {
+  void removeSettingListener(BoxCallback listener) {
     repo.removeSettingListener(listener);
   }
 
@@ -30,6 +31,6 @@ class SettingUseCase extends UseCase<SettingRepo> {
 
   List<Runner> loadRunnerList() {
     final _res = repo.loadRunnerList();
-    return _res.map((e) => Runner(e)).toList();
+    return _res.map((e) => Runner.fromMap(e)).toList();
   }
 }

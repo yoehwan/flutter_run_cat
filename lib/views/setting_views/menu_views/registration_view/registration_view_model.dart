@@ -16,7 +16,7 @@ class RegistrationViewModel extends MenuViewModel {
   final TextEditingController nameController = TextEditingController();
 
   final List<Runner> runnerList = [];
-  List<String> get runnerTitleList => runnerList.map((e) => e.title).toList();
+  List<String> get runnerTitleList => runnerList.map((e) => e.name).toList();
   @override
   void ready() {
     loadRunnerList();
@@ -31,7 +31,21 @@ class RegistrationViewModel extends MenuViewModel {
     runnerList.addAll(_res);
   }
 
-  void reorderRunnerList(int oldIndex, int newIndex) {}
+  int? _currnetRunnerIndex;
+
+  void onTapRunner(int index) {
+    _currnetRunnerIndex = index;
+    updateView();
+  }
+
+  void reorderRunnerList(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    final item = runnerList.removeAt(oldIndex);
+    runnerList.insert(newIndex, item);
+    updateRunnerListView();
+  }
 
   final String runnerItemViewID = "runnerItemViewID";
 

@@ -1,11 +1,10 @@
-import 'dart:io';
-
+import 'package:flutter_run_cat/databases/local_box.dart';
 import 'package:flutter_run_cat/repos/repo.dart';
 
 abstract class SettingRepo extends Repo {
-  void addSettingListener(Function(int typeIndex) listener);
+  void addSettingListener(BoxCallback listener);
 
-  void removeSettingListener(Function(int typeIndex) listener);
+  void removeSettingListener(BoxCallback listener);
 
   dynamic loadSetting(int typeIndex);
 
@@ -14,8 +13,7 @@ abstract class SettingRepo extends Repo {
   void updateStartUpLaunch(bool value);
 
   /// Runner
-  List<FileSystemEntity> loadRunnerList();
+  List<dynamic> loadRunnerList();
 
-  Future updateRunner(String name,List<String>itemList);
-
+  Future updateRunner(String name, List<String> itemList);
 }
