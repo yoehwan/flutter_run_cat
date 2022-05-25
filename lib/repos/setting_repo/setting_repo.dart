@@ -15,5 +15,7 @@ abstract class SettingRepo extends Repo {
   /// Runner
   List<dynamic> loadRunnerList();
 
-  Future updateRunner(String name, List<String> itemList);
+  Future updateRunner(int index, Map<String, dynamic> data);
+
+  Future saveImageList(String name, List<String> pathList);
 }

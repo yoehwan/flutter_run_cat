@@ -33,4 +33,9 @@ class SettingUseCase extends UseCase<SettingRepo> {
     final _res = repo.loadRunnerList();
     return _res.map((e) => Runner.fromMap(e)).toList();
   }
+
+  Future updateRunner(Runner runner) async {
+    await repo.saveImageList(runner.name, runner.itemList);
+    await repo.updateRunner(runner.index, runner.toMap());
+  }
 }

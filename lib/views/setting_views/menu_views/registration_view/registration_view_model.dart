@@ -114,7 +114,11 @@ class RegistrationViewModel extends MenuViewModel {
   void onTapSave() async {
     final _name = nameController.text;
     print(_name);
-    await settingController.updateRunner(_name, []);
+    final _runner = Runner(
+      name: _name,
+      itemList: [],
+    );
+    await settingController.updateRunner(_runner);
     loadRunnerList();
     updateRunnerListView();
   }

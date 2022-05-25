@@ -48,9 +48,4 @@ class SettingHelper {
     _useCase.updateStartUpLaunch(value);
   }
 
-  List<Runner> loadRunnerList() {
-    return _useCase.loadRunnerList();
-  }
-
-  Future updateRunner(Runner runner, List<String> itemList) async {}
 }
