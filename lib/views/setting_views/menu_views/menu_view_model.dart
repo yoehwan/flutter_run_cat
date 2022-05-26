@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_run_cat/controllers/setting_controller/setting_controller.dart';
 import 'package:flutter_run_cat/controllers/version_controller/version_controller.dart';
 import 'package:flutter_run_cat/enums/setting_item_type.dart';
@@ -21,9 +20,9 @@ part 'version_view/version_view_model.dart';
 part 'registration_view/registration_view_model.dart';
 
 abstract class MenuViewModel {
-  MenuViewModel() {
-    init();
-  }
+  // MenuViewModel() {
+  //   init();
+  // }
   final SettingController settingController = SettingController.find();
 
   String get viewID;

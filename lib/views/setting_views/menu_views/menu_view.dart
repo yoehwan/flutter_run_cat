@@ -35,6 +35,9 @@ abstract class MenuView<T extends MenuViewModel> extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<SettingController>(
       id: viewModel.viewID,
+      initState: (_) {
+        viewModel.init();
+      },
       builder: (_) {
         if (viewModel.isLoading) return loadingView();
         return contents();
