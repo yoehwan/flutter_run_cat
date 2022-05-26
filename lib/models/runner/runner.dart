@@ -2,12 +2,13 @@ class Runner {
   Runner({
     int? index,
     required this.name,
-    required this.itemList,
-  }) : index = index ?? genIndex();
+    List<String>? itemList,
+  })  : itemList = itemList ?? [],
+        index = index ?? genIndex();
 
   final int index;
-  final String name;
-  final List<String> itemList;
+  String name;
+  List<String> itemList;
 
   static int genIndex() {
     return DateTime.now().millisecondsSinceEpoch & 0xFFFFFF;

@@ -149,16 +149,15 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
         Widget runnerItem(int index) {
           final item = _list[index];
           return ListTile(
-              
             key: ValueKey(index),
-            // onTap: () {
-            //   viewModel.onTapRunner(index);
-            // },
+            onTap: () {
+              viewModel.onTapRunner(index);
+            },
             contentPadding: EdgeInsets.symmetric(horizontal: 4),
             leading: Icon(Icons.reorder),
             title: Text(item),
             trailing: GestureDetector(
-                onTap:(){
+                onTap: () {
                   viewModel.removeRunner(index);
                 },
                 child: Icon(Icons.delete)),
@@ -184,6 +183,10 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
                     },
                     onReorder: viewModel.reorderRunnerList,
                   ),
+                ),
+                GestureDetector(
+                  onTap: viewModel.addRunner,
+                  child: Icon(Icons.add),
                 ),
               ],
             ),
