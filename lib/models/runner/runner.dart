@@ -30,4 +30,15 @@ class Runner {
       itemList: List<String>.from(_map["itemList"]),
     );
   }
+
+  Runner copyWith({
+    String? name,
+    List<String>? itemList,
+  }) {
+    return Runner(
+      index: index,
+      name: name ?? this.name,
+      itemList: itemList ?? this.itemList,
+    );
+  }
 }

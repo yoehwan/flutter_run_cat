@@ -4,6 +4,9 @@ class RegistrationViewModel extends MenuViewModel {
   @override
   String get viewID => "RegistrationViewID";
   final String runnerListViewID = "runnerListViewID";
+  void updateRunnerViewID(int runnerIndex) {
+    settingController.update(["Runner$runnerIndex"]);
+  }
 
   void updateRunnerListView() {
     settingController.update([runnerListViewID]);
@@ -40,6 +43,7 @@ class RegistrationViewModel extends MenuViewModel {
   void onTapRunner(int index) {
     _currnetRunnerIndex = index;
     nameController.text = currentRunner!.name;
+    loadItemList();
     updateView();
   }
 
@@ -73,8 +77,16 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   final List<String> itemList = [];
-  final Ticker _itemTicker = Ticker();
+
+  void loadItemList() {
+    final _runner = currentRunner;
+    if (_runner == null) return;
+    itemList.clear();
+    itemList.addAll(_runner.itemList);
+  }
+
   int itemIndex = 0;
+  final Ticker _itemTicker = Ticker();
   Future _onTick(int index) async {
     final _list = itemList;
     final _len = _list.length;
@@ -89,9 +101,9 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   void onTapStart() {
-    onTapPause();
+    if (_itemTicker.isActivate) return;
     _itemTicker.start(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       onTick: _onTick,
     );
   }
@@ -138,5 +150,9 @@ class RegistrationViewModel extends MenuViewModel {
     await settingController.updateRunner(_runner);
     loadRunnerList();
     updateView();
+  }
+
+  void updateRunner(Runner runner) async {
+    await settingController.updateRunner(runner);
   }
 }

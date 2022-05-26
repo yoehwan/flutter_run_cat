@@ -12,7 +12,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
       Widget _item() {
         final headItem = viewModel.runnerHeadItem;
         if (headItem.isEmpty) {
-          return Center(child: Text("No Image"));
+          return const Center(child: Text("No Image"));
         }
         return Image.file(File(headItem));
       }
@@ -30,11 +30,11 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
               children: [
                 GestureDetector(
                   onTap: viewModel.onTapStart,
-                  child: Icon(Icons.play_arrow),
+                  child: const Icon(Icons.play_arrow),
                 ),
                 GestureDetector(
                   onTap: viewModel.onTapPause,
-                  child: Icon(Icons.pause),
+                  child: const Icon(Icons.pause),
                 ),
               ],
             ),
@@ -88,7 +88,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
           dimension: size,
           child: IconButton(
             onPressed: viewModel.addRunderImage,
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         );
       }
@@ -142,27 +142,34 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
   }
 
   Widget _runnerListView() {
+    Widget runnerItem(int index) {
+      final item = viewModel.runnerList[index];
+      return GetBuilder<SettingController>(
+        key: ValueKey(index),
+        id: "Runner${item.index}",
+        builder: (_) {
+          return ListTile(
+            onTap: () {
+              viewModel.onTapRunner(index);
+            },
+            contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+            leading: const Icon(Icons.reorder),
+            title: Text(item.name),
+            trailing: GestureDetector(
+              onTap: () {
+                viewModel.removeRunner(index);
+              },
+              child: const Icon(Icons.delete),
+            ),
+          );
+        },
+      );
+    }
+
     return GetBuilder<SettingController>(
       id: viewModel.runnerListViewID,
       builder: (_) {
         final _list = viewModel.runnerTitleList;
-        Widget runnerItem(int index) {
-          final item = _list[index];
-          return ListTile(
-            key: ValueKey(index),
-            onTap: () {
-              viewModel.onTapRunner(index);
-            },
-            contentPadding: EdgeInsets.symmetric(horizontal: 4),
-            leading: Icon(Icons.reorder),
-            title: Text(item),
-            trailing: GestureDetector(
-                onTap: () {
-                  viewModel.removeRunner(index);
-                },
-                child: Icon(Icons.delete)),
-          );
-        }
 
         return DecoratedBox(
           decoration: BoxDecoration(
@@ -173,7 +180,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
             child: Column(
               children: [
-                Text("Runner List"),
+                const Text("Runner List"),
                 Expanded(
                   child: ReorderableListView.builder(
                     itemCount: _list.length,
@@ -186,7 +193,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
                 ),
                 GestureDetector(
                   onTap: viewModel.addRunner,
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                 ),
               ],
             ),
@@ -199,11 +206,11 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
   Widget _runnerNameField() {
     return Row(
       children: [
-        Text("Runner Name :  "),
+        const Text("Runner Name :  "),
         Expanded(
           child: TextField(
             controller: viewModel.nameController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Input Runner Name",
             ),
           ),
@@ -215,7 +222,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
   Widget _saveButton() {
     return ElevatedButton(
       onPressed: viewModel.onTapSave,
-      child: Text("Save"),
+      child: const Text("Save"),
     );
   }
 
@@ -227,7 +234,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
           flex: 3,
           child: _runnerListView(),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(
           flex: 7,
           child: Column(
