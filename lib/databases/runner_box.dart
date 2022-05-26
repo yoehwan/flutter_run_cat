@@ -11,4 +11,8 @@ class RunnerBox extends LocalBox {
   Future updateRunner(int index, Map<String, dynamic> data) async {
     await box.put(index, data);
   }
+
+  Future removeRunner(int index)async {
+    await box.delete(index);
+  }
 }

@@ -143,8 +143,28 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
 
   Widget _runnerListView() {
     return GetBuilder<SettingController>(
-      id: viewModel.runnerItemViewID,
+      id: viewModel.runnerListViewID,
       builder: (_) {
+        final _list = viewModel.runnerTitleList;
+        Widget runnerItem(int index) {
+          final item = _list[index];
+          return ListTile(
+              
+            key: ValueKey(index),
+            // onTap: () {
+            //   viewModel.onTapRunner(index);
+            // },
+            contentPadding: EdgeInsets.symmetric(horizontal: 4),
+            leading: Icon(Icons.reorder),
+            title: Text(item),
+            trailing: GestureDetector(
+                onTap:(){
+                  viewModel.removeRunner(index);
+                },
+                child: Icon(Icons.delete)),
+          );
+        }
+
         return DecoratedBox(
           decoration: BoxDecoration(
             // borderRadius: BorderRadius.circular(5),
@@ -157,13 +177,10 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
                 Text("Runner List"),
                 Expanded(
                   child: ReorderableListView.builder(
-                    itemCount: viewModel.runnerTitleList.length,
+                    itemCount: _list.length,
+                    buildDefaultDragHandles: false,
                     itemBuilder: (_, index) {
-                      final item = viewModel.runnerTitleList[index];
-                      return SizedBox(
-                        key: ValueKey(item),
-                        child: Text(item),
-                      );
+                      return runnerItem(index);
                     },
                     onReorder: viewModel.reorderRunnerList,
                   ),

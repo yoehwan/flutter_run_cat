@@ -74,6 +74,13 @@ class SettingImpl extends SettingRepo {
   }
 
   @override
+  Future removeRunner(int runnerIndex, String name) async {
+    await runnerBox.removeRunner(runnerIndex);
+    final _runnerFolder = Directory("$assetPath/$name");
+    await _runnerFolder.delete(recursive: true);
+  }
+
+  @override
   Future saveImageList(String name, List<String> pathList) async {
     final _runnerFolder = Directory("$assetPath/$name");
     await _runnerFolder.create();

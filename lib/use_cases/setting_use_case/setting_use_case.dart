@@ -38,4 +38,8 @@ class SettingUseCase extends UseCase<SettingRepo> {
     await repo.saveImageList(runner.name, runner.itemList);
     await repo.updateRunner(runner.index, runner.toMap());
   }
+
+  Future removeRunner(Runner runner) async {
+    await repo.removeRunner(runner.index, runner.name);
+  }
 }

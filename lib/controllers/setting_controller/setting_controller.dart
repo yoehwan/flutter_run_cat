@@ -38,6 +38,9 @@ class SettingController extends Controller with WindonwHelperMixin {
   Future updateRunner(Runner runner) async {
     await _useCase.updateRunner(runner);
   }
+  Future removeRunner(Runner runner) async {
+    await _useCase.removeRunner(runner);
+  }
 
   final String versionViewID = "versionViewID";
 
@@ -48,4 +51,5 @@ class SettingController extends Controller with WindonwHelperMixin {
   Future updateSetting(Setting setting) async {
     _settingHelper.updateSetting(setting);
   }
+
 }

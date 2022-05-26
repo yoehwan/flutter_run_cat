@@ -32,10 +32,23 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   int? _currnetRunnerIndex;
+  Runner? get currentRunner {
+    if (_currnetRunnerIndex == null) return null;
+    return runnerList[_currnetRunnerIndex!];
+  }
 
   void onTapRunner(int index) {
     _currnetRunnerIndex = index;
+    nameController.text = currentRunner!.name;
+
     updateView();
+  }
+
+  void removeRunner(int index) async {
+    final _runner = runnerList[index];
+    await settingController.removeRunner(_runner);
+    runnerList.removeAt(index);
+    updateRunnerListView();
   }
 
   void reorderRunnerList(int oldIndex, int newIndex) {
@@ -53,7 +66,7 @@ class RegistrationViewModel extends MenuViewModel {
     settingController.update([runnerItemViewID]);
   }
 
-  List<String> itemList = [];
+  final List<String> itemList = [];
   final Ticker _itemTicker = Ticker();
   int itemIndex = 0;
   Future _onTick(int index) async {
@@ -113,13 +126,12 @@ class RegistrationViewModel extends MenuViewModel {
 
   void onTapSave() async {
     final _name = nameController.text;
-    print(_name);
     final _runner = Runner(
       name: _name,
-      itemList: [],
+      itemList: itemList,
     );
     await settingController.updateRunner(_runner);
     loadRunnerList();
-    updateRunnerListView();
+    updateView();
   }
 }
