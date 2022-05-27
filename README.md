@@ -39,7 +39,7 @@ sudo wget -qO- https://raw.githubusercontent.com/yoehwan/flutter_run_cat/main/in
     * Runner - Hide Runner
     * ~~StartUp - Auto Launch~~
     * StartUp - Check Update 
-* System Info (Running Here..)
+* Sy]stem Info 
     *  Show Menubar
     *  ~~Cpu~~
     *  ~~Memory~~
@@ -49,8 +49,9 @@ sudo wget -qO- https://raw.githubusercontent.com/yoehwan/flutter_run_cat/main/in
 * About
     * More Info
     * Update System
-* Registration (Add Custom Image)
-
+* Registration (Add Custom Image) => Running Here!
+    * ~~Reordable ItemListView~~
+    * AutoSave
 more more...more...
 
 ## Licenses
