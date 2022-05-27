@@ -20,9 +20,6 @@ part 'version_view/version_view_model.dart';
 part 'registration_view/registration_view_model.dart';
 
 abstract class MenuViewModel {
-  // MenuViewModel() {
-  //   init();
-  // }
   final SettingController settingController = SettingController.find();
 
   String get viewID;
@@ -42,6 +39,8 @@ abstract class MenuViewModel {
     _loadig = false;
     updateView();
   }
+
+  void dispose(){}
 
   void updateView() {
     settingController.update([viewID]);

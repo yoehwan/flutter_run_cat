@@ -18,12 +18,34 @@ class RegistrationViewModel extends MenuViewModel {
 
   final TextEditingController nameController = TextEditingController();
 
+  void initNameListener() {
+    nameController.addListener(nameListener);
+  }
+
+  void nameListener() {
+    final newName = nameController.text;
+    final runner = currentRunner!.copyWith(name: newName);
+    updateRunner(runner);
+    runnerList[_currnetRunnerIndex!] = runner;
+    updateRunnerListView();
+  }
+
+  void disposeNameListener() {
+    nameController.removeListener(nameListener);
+  }
+
   final List<Runner> runnerList = [];
   List<String> get runnerTitleList => runnerList.map((e) => e.name).toList();
+
   @override
   void ready() {
     loadRunnerList();
+    initNameListener();
     super.ready();
+  }
+
+  void dispose() {
+    disposeNameListener();
   }
 
   void loadRunnerList() {
@@ -40,10 +62,18 @@ class RegistrationViewModel extends MenuViewModel {
     return runnerList[_currnetRunnerIndex!];
   }
 
-  void onTapRunner(int index) {
+  bool selectedRunner(int index) {
+    return _currnetRunnerIndex == index;
+  }
+
+  void _selectRunner(int index) {
     _currnetRunnerIndex = index;
     nameController.text = currentRunner!.name;
     loadItemList();
+  }
+
+  void onTapRunner(int index) {
+    _selectRunner(index);
     updateView();
   }
 
@@ -55,8 +85,14 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   void addRunner() {
-    final _runner = Runner(name: "New Runner");
+    int index = 1;
+    String name = "New Runner";
+    while (runnerTitleList.contains(name + "$index")) {
+      index++;
+    }
+    final _runner = Runner(name: name + "$index");
     runnerList.add(_runner);
+    _selectRunner(runnerList.length - 1);
     settingController.updateRunner(_runner);
     updateView();
   }
@@ -114,9 +150,6 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   void reorderRunnerImage(int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) {
-      newIndex -= 1;
-    }
     final String item = itemList.removeAt(oldIndex);
     itemList.insert(newIndex, item);
     updateRunnerItemView();
@@ -137,7 +170,7 @@ class RegistrationViewModel extends MenuViewModel {
   @override
   Future updateSetting(SettingItem item) async {}
 
-  void onTapDelete(int index) {
+  void onTapRemove(int index) {
     itemList.removeAt(index);
     updateRunnerItemView();
   }
@@ -145,6 +178,7 @@ class RegistrationViewModel extends MenuViewModel {
   void onTapSave() async {
     final _name = nameController.text;
     final _runner = currentRunner ?? Runner(name: "", itemList: []);
+
     _runner.name = _name;
     _runner.itemList = itemList;
     await settingController.updateRunner(_runner);

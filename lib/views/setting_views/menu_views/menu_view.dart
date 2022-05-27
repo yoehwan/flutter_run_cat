@@ -38,6 +38,9 @@ abstract class MenuView<T extends MenuViewModel> extends StatelessWidget {
       initState: (_) {
         viewModel.init();
       },
+      dispose: (_) {
+        viewModel.dispose();
+      },
       builder: (_) {
         if (viewModel.isLoading) return loadingView();
         return contents();

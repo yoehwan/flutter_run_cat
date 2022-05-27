@@ -46,11 +46,10 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
     Widget _itemListView() {
       final itemList = viewModel.itemList;
       Widget _image(int index, double size) {
-        ///TODO: Fix badge HitTestBoundary
         Widget _badge() {
           return GestureDetector(
             onTap: () {
-              viewModel.onTapDelete(index);
+              viewModel.onTapRemove(index);
             },
             child: const DecoratedBox(
               decoration: BoxDecoration(
@@ -66,14 +65,16 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
         final isHeadItem = index == viewModel.itemIndex;
         final _style = TextStyle(color: (isHeadItem) ? lightBlue : null);
         return Badge(
+          ignorePointer: false,
           toAnimate: false,
-          elevation: 1,
+          position: const BadgePosition(top: 0, end: 0),
           badgeColor: Colors.transparent,
           padding: EdgeInsets.zero,
           badgeContent: _badge(),
           child: Column(
             children: [
               SizedBox.square(
+                key: UniqueKey(),
                 dimension: size,
                 child: Image.file(File(itemPath)),
               ),
@@ -143,26 +144,22 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
 
   Widget _runnerListView() {
     Widget runnerItem(int index) {
-      final item = viewModel.runnerList[index];
-      return GetBuilder<SettingController>(
+      final runner = viewModel.runnerList[index];
+      return ListTile(
         key: ValueKey(index),
-        id: "Runner${item.index}",
-        builder: (_) {
-          return ListTile(
-            onTap: () {
-              viewModel.onTapRunner(index);
-            },
-            contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-            leading: const Icon(Icons.reorder),
-            title: Text(item.name),
-            trailing: GestureDetector(
-              onTap: () {
-                viewModel.removeRunner(index);
-              },
-              child: const Icon(Icons.delete),
-            ),
-          );
+        selected: viewModel.selectedRunner(index),
+        onTap: () {
+          viewModel.onTapRunner(index);
         },
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+        leading: const Icon(Icons.reorder),
+        title: Text(runner.name),
+        trailing: GestureDetector(
+          onTap: () {
+            viewModel.removeRunner(index);
+          },
+          child: const Icon(Icons.delete),
+        ),
       );
     }
 
