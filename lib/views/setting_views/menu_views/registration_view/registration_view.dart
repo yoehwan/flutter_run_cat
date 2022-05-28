@@ -147,7 +147,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
       final runner = viewModel.runnerList[index];
       return ListTile(
         key: ValueKey(index),
-        selected: viewModel.selectedRunner(index),
+        selected: viewModel.isSelectedRunner(index),
         onTap: () {
           viewModel.onTapRunner(index);
         },

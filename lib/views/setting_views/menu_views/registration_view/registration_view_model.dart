@@ -23,10 +23,10 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   void nameListener() {
+    if (_selectedRunnerIndex == null) return;
     final newName = nameController.text;
-    final runner = currentRunner!.copyWith(name: newName);
+    final runner = runnerList[_selectedRunnerIndex!].copyWith(name: newName);
     updateRunner(runner);
-    runnerList[_currnetRunnerIndex!] = runner;
     updateRunnerListView();
   }
 
@@ -34,8 +34,24 @@ class RegistrationViewModel extends MenuViewModel {
     nameController.removeListener(nameListener);
   }
 
-  final List<Runner> runnerList = [];
   List<String> get runnerTitleList => runnerList.map((e) => e.name).toList();
+
+  List<Runner> get runnerList => settingController.loadRunnerList();
+  
+
+  int _indexWhereRunner(int runnerIndex) {
+    return runnerList.indexWhere((e) => e.index == runnerIndex);
+  }
+
+  Future updateRunner(Runner runner) async {
+    final index = _indexWhereRunner(runner.index);
+    if (index == -1) {
+      runnerList.add(runner);
+    } else {
+      runnerList[index] = runner;
+    }
+    await settingController.updateRunner(runner);
+  }
 
   @override
   void ready() {
@@ -44,6 +60,7 @@ class RegistrationViewModel extends MenuViewModel {
     super.ready();
   }
 
+  @override
   void dispose() {
     disposeNameListener();
   }
@@ -56,20 +73,17 @@ class RegistrationViewModel extends MenuViewModel {
     runnerList.addAll(_res);
   }
 
-  int? _currnetRunnerIndex;
-  Runner? get currentRunner {
-    if (_currnetRunnerIndex == null) return null;
-    return runnerList[_currnetRunnerIndex!];
-  }
+  int? _selectedRunnerIndex;
 
-  bool selectedRunner(int index) {
-    return _currnetRunnerIndex == index;
+  bool isSelectedRunner(int index) {
+    return _selectedRunnerIndex == index;
   }
 
   void _selectRunner(int index) {
-    _currnetRunnerIndex = index;
-    nameController.text = currentRunner!.name;
-    loadItemList();
+    _selectedRunnerIndex = index;
+    final runner = runnerList[index];
+    nameController.text = runner.name;
+    loadItemList(runner);
   }
 
   void onTapRunner(int index) {
@@ -84,16 +98,15 @@ class RegistrationViewModel extends MenuViewModel {
     updateRunnerListView();
   }
 
-  void addRunner() {
+  void addRunner() async {
     int index = 1;
     String name = "New Runner";
     while (runnerTitleList.contains(name + "$index")) {
       index++;
     }
     final _runner = Runner(name: name + "$index");
-    runnerList.add(_runner);
+    await updateRunner(_runner);
     _selectRunner(runnerList.length - 1);
-    settingController.updateRunner(_runner);
     updateView();
   }
 
@@ -114,11 +127,9 @@ class RegistrationViewModel extends MenuViewModel {
 
   final List<String> itemList = [];
 
-  void loadItemList() {
-    final _runner = currentRunner;
-    if (_runner == null) return;
+  void loadItemList(Runner runner) {
     itemList.clear();
-    itemList.addAll(_runner.itemList);
+    itemList.addAll(runner.itemList);
   }
 
   int itemIndex = 0;
@@ -149,9 +160,16 @@ class RegistrationViewModel extends MenuViewModel {
     itemIndex = 0;
   }
 
-  void reorderRunnerImage(int oldIndex, int newIndex) {
+  Future _updateItemList(List<String> itemList) async {
+    final runner =
+        runnerList[_selectedRunnerIndex!].copyWith(itemList: itemList);
+    await updateRunner(runner);
+  }
+
+  void reorderRunnerImage(int oldIndex, int newIndex) async {
     final String item = itemList.removeAt(oldIndex);
     itemList.insert(newIndex, item);
+    await _updateItemList(itemList);
     updateRunnerItemView();
   }
 
@@ -164,6 +182,7 @@ class RegistrationViewModel extends MenuViewModel {
     );
     if (_res == null) return;
     itemList.addAll(_res.files.map((e) => e.path!));
+    await _updateItemList(itemList);
     updateRunnerItemView();
   }
 
@@ -176,17 +195,13 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   void onTapSave() async {
-    final _name = nameController.text;
-    final _runner = currentRunner ?? Runner(name: "", itemList: []);
-
-    _runner.name = _name;
-    _runner.itemList = itemList;
-    await settingController.updateRunner(_runner);
-    loadRunnerList();
-    updateView();
-  }
-
-  void updateRunner(Runner runner) async {
-    await settingController.updateRunner(runner);
+    // final _name = nameController.text;
+    // final _runner = currentRunner ?? Runner(name: "", itemList: []);
+    //
+    // _runner.name = _name;
+    // _runner.itemList = itemList;
+    // await settingController.updateRunner(_runner);
+    // loadRunnerList();
+    // updateView();
   }
 }
