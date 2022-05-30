@@ -5,7 +5,7 @@ import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/utils/setting_helper.dart';
 import 'package:flutter_run_cat/utils/system_helper.dart';
 import 'package:flutter_run_cat/utils/ticker.dart';
-import 'package:flutter_run_cat/utils/window_helper_mixin.dart';
+import 'package:flutter_run_cat/utils/window_helper.dart';
 import 'package:flutter_run_cat/views/tray_view/tray_view.dart';
 
 import '../../models/system/system.dart';

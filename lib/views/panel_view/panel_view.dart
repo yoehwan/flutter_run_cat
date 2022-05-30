@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_run_cat/theme.dart';
 import 'package:tuple/tuple.dart';
 import 'menu_views/menu_view.dart';
-import 'setting_view_model.dart';
+import 'panel_view_model.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({Key? key}) : super(key: key);

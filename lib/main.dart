@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_run_cat/databases/local_box.dart';
 import 'package:flutter_run_cat/theme.dart';
-import 'package:flutter_run_cat/views/setting_views/setting_view.dart';
+import 'package:flutter_run_cat/views/panel_view/panel_view.dart';
 import 'package:get/get.dart';
 
 import 'controllers/controllers.dart';
