@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_run_cat/databases/local_box.dart';
-import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_impl.dart';
 import 'package:flutter_run_cat/use_cases/setting_use_case/setting_use_case.dart';

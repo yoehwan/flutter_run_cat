@@ -10,16 +10,17 @@ import 'package:flutter_run_cat/utils/setting_helper.dart';
 import 'package:flutter_run_cat/utils/window_helper_mixin.dart';
 import 'package:get/get.dart';
 
-class SettingController extends Controller with WindonwHelperMixin {
+class SettingController extends Controller {
   static SettingController find() => Get.find<SettingController>();
 
   final SettingHelper _settingHelper = SettingHelper();
+  final WindowHelper _windowHelper = WindowHelper();
   final SettingUseCase _useCase = SettingUseCase(SettingImpl());
   @override
   void onInit() async {
     await _settingHelper.init();
     await _useCase.init();
-    initWindow(const Size(windowMinWidth, windowMinHeight));
+    _windowHelper.initWindow(const Size(windowMinWidth, windowMinHeight));
     super.onInit();
   }
 
@@ -38,6 +39,7 @@ class SettingController extends Controller with WindonwHelperMixin {
   Future updateRunner(Runner runner) async {
     await _useCase.updateRunner(runner);
   }
+
   Future removeRunner(Runner runner) async {
     await _useCase.removeRunner(runner);
   }
@@ -52,4 +54,7 @@ class SettingController extends Controller with WindonwHelperMixin {
     _settingHelper.updateSetting(setting);
   }
 
+  void hideWindow() {
+    _windowHelper.hideWindow();
+  }
 }

@@ -15,12 +15,12 @@ const _defaultRevIconDuration = Duration(milliseconds: 100);
 
 /// TODO: appIndicator make that be able to receive raw data of Icon, no path.
 /// It can be save cpu, but can be need more memory?
-class TrayController extends Controller with WindonwHelperMixin {
+class TrayController extends Controller {
   final FlutterAppIndicator _indicator = FlutterAppIndicator();
   final TrayView _trayView = TrayView('assets/cat/');
   final SettingHelper _settingHelper = SettingHelper();
   final SystemHelper _systemHelper = SystemHelper();
-
+  final WindowHelper _windowHelper = WindowHelper();
   SystemSetting get loadSystemSetting {
     final _res = _settingHelper.loadSetting(SettingType.systemInfo.index);
     if (_res == null) return SystemSetting();
@@ -64,9 +64,9 @@ class TrayController extends Controller with WindonwHelperMixin {
       label: _label(),
     );
     await _indicator.setMenu([
-      MenuItem("Preference", showWindow),
+      MenuItem("Preference", _windowHelper.showWindow),
       MenuDivider(),
-      MenuItem("Exit", closeWindow),
+      MenuItem("Exit", _windowHelper.closeWindow),
     ]);
   }
 
@@ -101,7 +101,7 @@ class TrayController extends Controller with WindonwHelperMixin {
       }
       return _duration - _gapDuration;
     } catch (e) {
-      print(e);
+      // print(e);
       return _defaultIconDuration;
     }
   }
@@ -109,7 +109,8 @@ class TrayController extends Controller with WindonwHelperMixin {
   final Ticker _systemTicker = Ticker();
   void initTicker() {
     _iconTicker.start(duration: _defaultIconDuration, onTick: onIconTick);
-    _systemTicker.start(duration: Duration(seconds: 1), onTick: onSystemTick);
+    _systemTicker.start(
+        duration: const Duration(seconds: 1), onTick: onSystemTick);
   }
 
   Future onIconTick(_) async {
@@ -132,7 +133,6 @@ class TrayController extends Controller with WindonwHelperMixin {
         _indicator.setLabel(_label());
         break;
       case SettingType.registration:
-        // TODO: Handle this case.
         break;
     }
   }
