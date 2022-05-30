@@ -1,5 +1,3 @@
-import 'package:flutter_run_cat/enums/battery_state.dart';
-
 class TrayView {
   TrayView(this.iconDir);
 

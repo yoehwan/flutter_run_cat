@@ -99,7 +99,7 @@ class _StateSettingView extends State<SettingView>
           GeneralView(),
           SystemInfoView(),
           VersionView(),
-          RegistrationView(),
+          // RegistrationView(),
         ],
       ),
     );
