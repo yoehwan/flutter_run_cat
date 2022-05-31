@@ -10,8 +10,8 @@ import 'package:flutter_run_cat/utils/setting_helper.dart';
 import 'package:flutter_run_cat/utils/window_helper.dart';
 import 'package:get/get.dart';
 
-class SettingController extends Controller {
-  static SettingController find() => Get.find<SettingController>();
+class PanelController extends Controller {
+  static PanelController find() => Get.find<PanelController>();
 
   final SettingHelper _settingHelper = SettingHelper();
   final WindowHelper _windowHelper = WindowHelper();
@@ -42,12 +42,6 @@ class SettingController extends Controller {
 
   Future removeRunner(Runner runner) async {
     await _useCase.removeRunner(runner);
-  }
-
-  final String versionViewID = "versionViewID";
-
-  void updateVersionView() {
-    update([versionViewID]);
   }
 
   Future updateSetting(Setting setting) async {

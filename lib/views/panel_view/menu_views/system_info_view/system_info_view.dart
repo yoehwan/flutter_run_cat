@@ -1,6 +1,6 @@
 part of menu_view;
 
-class SystemInfoView extends MenuView<SystemInfoViewModel> {
+class SystemInfoView extends MenuViewOld<SystemInfoViewModel> {
   SystemInfoView({Key? key})
       : super(
           key: key,
@@ -12,22 +12,22 @@ class SystemInfoView extends MenuView<SystemInfoViewModel> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CheckMenuView(
+        RadioMenuWidget(
           title: viewModel.cpuTitle,
           titleWidth: viewModel.maxTitleWidth,
           itemList: viewModel.cpuItemList,
         ),
-        CheckMenuView(
+        RadioMenuWidget(
           title: viewModel.memTitle,
           titleWidth: viewModel.maxTitleWidth,
           itemList: viewModel.memItemList,
         ),
-        CheckMenuView(
+        RadioMenuWidget(
           title: viewModel.batteryTitle,
           titleWidth: viewModel.maxTitleWidth,
           itemList: viewModel.batteryItemList,
         ),
-        CheckMenuView(
+        RadioMenuWidget(
           title: viewModel.diskTitle,
           titleWidth: viewModel.maxTitleWidth,
           itemList: viewModel.disItemList,

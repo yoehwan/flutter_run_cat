@@ -1,6 +1,6 @@
 part of menu_view;
 
-class VersionView extends MenuView<VersionViewModel> {
+class VersionView extends MenuViewOld<VersionViewModel> {
   VersionView({Key? key})
       : super(
           key: key,

@@ -1,5 +1,6 @@
 enum SettingItemType {
   //General
+  general,
   runner,
   startUp,
   //SystemInfo

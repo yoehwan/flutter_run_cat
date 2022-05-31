@@ -5,15 +5,15 @@ class RegistrationViewModel extends MenuViewModel {
   String get viewID => "RegistrationViewID";
   final String runnerListViewID = "runnerListViewID";
   void updateRunnerViewID(int runnerIndex) {
-    settingController.update(["Runner$runnerIndex"]);
+    controller.update(["Runner$runnerIndex"]);
   }
 
   void updateRunnerListView() {
-    settingController.update([runnerListViewID]);
+    controller.update([runnerListViewID]);
   }
 
   Setting get loadSetting =>
-      settingController.loadSetting(SettingType.registration.index) ??
+      controller.loadSetting(SettingType.registration.index) ??
       RegistrationSetting(itemList: []);
 
   final TextEditingController nameController = TextEditingController();
@@ -36,7 +36,7 @@ class RegistrationViewModel extends MenuViewModel {
 
   List<String> get runnerTitleList => runnerList.map((e) => e.name).toList();
 
-  List<Runner> get runnerList => settingController.loadRunnerList();
+  List<Runner> get runnerList => controller.loadRunnerList();
   
 
   int _indexWhereRunner(int runnerIndex) {
@@ -50,7 +50,7 @@ class RegistrationViewModel extends MenuViewModel {
     } else {
       runnerList[index] = runner;
     }
-    await settingController.updateRunner(runner);
+    await controller.updateRunner(runner);
   }
 
   @override
@@ -69,7 +69,7 @@ class RegistrationViewModel extends MenuViewModel {
     if (runnerList.isNotEmpty) {
       runnerList.clear();
     }
-    final _res = settingController.loadRunnerList();
+    final _res = controller.loadRunnerList();
     runnerList.addAll(_res);
   }
 
@@ -93,7 +93,7 @@ class RegistrationViewModel extends MenuViewModel {
 
   void removeRunner(int index) async {
     final _runner = runnerList[index];
-    await settingController.removeRunner(_runner);
+    await controller.removeRunner(_runner);
     runnerList.removeAt(index);
     updateRunnerListView();
   }
@@ -122,7 +122,7 @@ class RegistrationViewModel extends MenuViewModel {
   final String runnerItemViewID = "runnerItemViewID";
 
   void updateRunnerItemView() {
-    settingController.update([runnerItemViewID]);
+    controller.update([runnerItemViewID]);
   }
 
   final List<String> itemList = [];

@@ -6,7 +6,7 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
 
   @override
   SystemSetting get loadSetting {
-    final _res = settingController.loadSetting(SettingType.systemInfo.index);
+    final _res = controller.loadSetting(SettingType.systemInfo.index);
     if (_res == null) return SystemSetting();
     return _res as SystemSetting;
   }
@@ -23,10 +23,10 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
   /// CPU
   final String cpuTitle = "CPU Usage";
 
-  List<CheckMenuItem> get cpuItemList {
+  List<RadioMenuItem> get cpuItemList {
     final _item = setting.cpuItem;
     return [
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
@@ -39,17 +39,17 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
   /// Memory
   final String memTitle = "Memory Performance";
 
-  List<CheckMenuItem> get memItemList {
+  List<RadioMenuItem> get memItemList {
     final _item = setting.memoryItem;
     return [
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showTray,
         desc: _activateText,
         onTap: () {
           updateSetting(_item.copyWith(showTray: !_item.showTray));
         },
       ),
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
@@ -62,17 +62,17 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
   /// Battery
   final String batteryTitle = "Battery State";
 
-  List<CheckMenuItem> get batteryItemList {
+  List<RadioMenuItem> get batteryItemList {
     final _item = setting.batteryItem;
     return [
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showTray,
         desc: _activateText,
         onTap: () {
           updateSetting(_item.copyWith(showTray: !_item.showTray));
         },
       ),
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
@@ -84,17 +84,17 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
 
   final diskTitle = "Disk Usage";
 
-  List<CheckMenuItem> get disItemList {
+  List<RadioMenuItem> get disItemList {
     final _item = setting.diskItem;
     return [
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showTray,
         desc: _activateText,
         onTap: () {
           updateSetting(_item.copyWith(showTray: !_item.showTray));
         },
       ),
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
@@ -131,7 +131,7 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
         break;
     }
 
-    await settingController.updateSetting(_res);
+    await controller.updateSetting(_res);
     refreshSetting();
     updateView();
   }

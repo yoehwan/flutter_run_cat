@@ -1,23 +1,28 @@
 part of menu_view;
 
-class GeneralView extends MenuView<GeneralViewModel> {
-  GeneralView({Key? key})
-      : super(
-          key: key,
-          viewModel: GeneralViewModel(),
-        );
+class GeneralView extends MenuView {
+  const GeneralView({super.key});
 
   @override
-  Widget contents() {
+  State<StatefulWidget> createState() {
+    return GeneralViewState();
+  }
+}
+
+class GeneralViewState extends MenuViewState<GeneralView, GeneralViewModel> {
+  GeneralViewState() : super(GeneralViewModel());
+
+  @override
+  Widget body() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CheckMenuView(
+        RadioMenuWidget(
           title: viewModel.runnerTitle,
           titleWidth: viewModel.maxTitleWidth,
           itemList: viewModel.runnerItemList,
         ),
-        CheckMenuView(
+        RadioMenuWidget(
           title: viewModel.startUpTitle,
           titleWidth: viewModel.maxTitleWidth,
           itemList: viewModel.startUpItemList,

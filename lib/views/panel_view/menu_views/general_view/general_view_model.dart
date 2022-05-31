@@ -6,7 +6,7 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
 
   @override
   GeneralSetting get loadSetting {
-    final _res = settingController.loadSetting(SettingType.general.index);
+    final _res = controller.loadSetting(SettingType.general.index);
     if (_res == null) return GeneralSetting();
     return _res as GeneralSetting;
   }
@@ -16,24 +16,25 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
 
   final String runnerTitle = "Runner";
 
-  List<CheckMenuItem> get runnerItemList {
+  List<RadioMenuItem> get runnerItemList {
     final _item = setting.runnerItem;
     return [
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.invert,
         desc: "Invert (The lighter CPU loads, the faster th speed)",
         onTap: () {
           updateSetting(_item.copyWith(invert: !_item.invert));
         },
       ),
-      CheckMenuItem(
-        check: _item.hideRunnder,
-        desc: "Hide Runnder",
-        onTap: () {
-          updateSetting(_item.copyWith(hideRunnder: !_item.hideRunnder));
-        },
-      ),
-      CheckMenuItem(
+      /// TODO: need fix AppIndicator Icon Bug!
+      // RadioMenuItem(
+      //   check: _item.hideRunnder,
+      //   desc: "Hide Runnder",
+      //   onTap: () {
+      //     updateSetting(_item.copyWith(hideRunnder: !_item.hideRunnder));
+      //   },
+      // ),
+      RadioMenuItem(
         check: _item.hideLabel,
         desc: "Hide Label",
         onTap: () {
@@ -45,25 +46,26 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
 
   final String startUpTitle = "Startup";
 
-  List<CheckMenuItem> get startUpItemList {
+  List<RadioMenuItem> get startUpItemList {
     final _item = setting.startUpItem;
     return [
-      CheckMenuItem(
+      RadioMenuItem(
         check: _item.startUpLaunch,
         desc: "Launch RunCat at Login",
         onTap: () {
           final _value = !_item.startUpLaunch;
-          settingController.updateStartUpLaunch(_value);
+          controller.updateStartUpLaunch(_value);
           updateSetting(_item.copyWith(startUpLaunch: _value));
         },
       ),
-      CheckMenuItem(
-        check: _item.checkUpdate,
-        desc: "Check for Update when Startup",
-        onTap: () {
-          updateSetting(_item.copyWith(checkUpdate: !_item.checkUpdate));
-        },
-      )
+      /// TODO: make [VersionController].
+      // RadioMenuItem(
+      //   check: _item.checkUpdate,
+      //   desc: "Check for Update when Startup",
+      //   onTap: () {
+      //     updateSetting(_item.copyWith(checkUpdate: !_item.checkUpdate));
+      //   },
+      // )
     ];
   }
 
@@ -86,10 +88,9 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
       case SettingItemType.network:
         return;
       case SettingItemType.registration:
-        // TODO: Handle this case.
         break;
     }
-    await settingController.updateSetting(_res);
+    await controller.updateSetting(_res);
     refreshSetting();
     updateView();
   }

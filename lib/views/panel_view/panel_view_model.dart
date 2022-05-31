@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_run_cat/controllers/setting_controller/setting_controller.dart';
+import 'package:flutter_run_cat/controllers/panel_controller/panel_controller.dart';
 import 'package:tuple/tuple.dart';
 
 class SettingViewModel {
-  final SettingController settingController = SettingController.find();
+  final PanelController settingController = PanelController.find();
 
   late TabController tabController;
 
@@ -11,6 +11,7 @@ class SettingViewModel {
     const Tuple2(Icons.settings, "General"),
     const Tuple2(Icons.run_circle, "System Info"),
     const Tuple2(Icons.update, "About"),
+
     /// detached registration_view, after fix trayview, attach again.!
     // const Tuple2(Icons.report_gmailerrorred, "Registration"),
   ];

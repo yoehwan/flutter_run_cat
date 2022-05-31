@@ -1,21 +1,11 @@
-part of menu_view;
+import 'package:flutter/material.dart';
+import 'package:flutter_run_cat/models/radio_menu_item.dart';
 
-class CheckMenuItem {
-  CheckMenuItem({
-    required this.check,
-    required this.desc,
-    required this.onTap,
-  });
-  final bool check;
-  final String desc;
-  final VoidCallback onTap;
-}
-
-class CheckMenuView extends StatelessWidget {
+class RadioMenuWidget extends StatelessWidget {
   final String title;
   final double titleWidth;
-  final List<CheckMenuItem> itemList;
-  const CheckMenuView({
+  final List<RadioMenuItem> itemList;
+  const RadioMenuWidget({
     Key? key,
     required this.title,
     required this.titleWidth,
@@ -23,7 +13,7 @@ class CheckMenuView extends StatelessWidget {
   }) : super(key: key);
 
   Widget _itemList() {
-    Widget _item(CheckMenuItem item) {
+    Widget _item(RadioMenuItem item) {
       return Flexible(
         child: Row(
           children: [

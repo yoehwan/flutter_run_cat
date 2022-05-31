@@ -1,6 +1,6 @@
 part of menu_view;
 
-class RegistrationView extends MenuView<RegistrationViewModel> {
+class RegistrationView extends MenuViewOld<RegistrationViewModel> {
   RegistrationView({Key? key})
       : super(
           key: key,
@@ -122,7 +122,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
       });
     }
 
-    return GetBuilder<SettingController>(
+    return GetBuilder<PanelController>(
       id: viewModel.runnerItemViewID,
       builder: (_) {
         return Expanded(
@@ -163,7 +163,7 @@ class RegistrationView extends MenuView<RegistrationViewModel> {
       );
     }
 
-    return GetBuilder<SettingController>(
+    return GetBuilder<PanelController>(
       id: viewModel.runnerListViewID,
       builder: (_) {
         final _list = viewModel.runnerTitleList;
