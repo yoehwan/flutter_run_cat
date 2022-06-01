@@ -17,7 +17,7 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
   final String runnerTitle = "Runner";
 
   List<RadioMenuItem> get runnerItemList {
-    final _item = setting.runnerItem;
+    final _item = setting;
     return [
       RadioMenuItem(
         check: _item.invert,
@@ -26,6 +26,7 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
           updateSetting(_item.copyWith(invert: !_item.invert));
         },
       ),
+
       /// TODO: need fix AppIndicator Icon Bug!
       // RadioMenuItem(
       //   check: _item.hideRunnder,
@@ -55,9 +56,10 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
         onTap: () {
           final _value = !_item.startUpLaunch;
           controller.updateStartUpLaunch(_value);
-          updateSetting(_item.copyWith(startUpLaunch: _value));
+          updateSettingOld(_item.copyWith(startUpLaunch: _value));
         },
       ),
+
       /// TODO: make [VersionController].
       // RadioMenuItem(
       //   check: _item.checkUpdate,
@@ -70,28 +72,33 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
   }
 
   @override
-  Future updateSetting(SettingItem item) async {
-    GeneralSetting _res = setting;
-    switch (item.type) {
-      case SettingItemType.runner:
-        final _item = item as GeneralRunnerItem;
-        _res = _res.coypWith(runnerItem: _item);
-        break;
-      case SettingItemType.startUp:
-        final _item = item as GeneralStartUpItem;
-        _res = _res.coypWith(startUpItem: _item);
-        break;
-      case SettingItemType.cpu:
-      case SettingItemType.memory:
-      case SettingItemType.battery:
-      case SettingItemType.disk:
-      case SettingItemType.network:
-        return;
-      case SettingItemType.registration:
-        break;
-    }
-    await controller.updateSetting(_res);
-    refreshSetting();
-    updateView();
+  Future updateSettingOld(SettingItem item) async {
+    // GeneralSetting _res = setting;
+    // switch (item.type) {
+    //   case SettingItemType.runner:
+    //     final _item = item as GeneralRunnerItem;
+    //     _res = _res.copyWith(runnerItem: _item);
+    //     break;
+    //   case SettingItemType.startUp:
+    //     final _item = item as GeneralStartUpItem;
+    //     _res = _res.copyWith(startUpItem: _item);
+    //     break;
+    //   case SettingItemType.cpu:
+    //   case SettingItemType.memory:
+    //   case SettingItemType.battery:
+    //   case SettingItemType.disk:
+    //   case SettingItemType.network:
+    //     return;
+    //   case SettingItemType.registration:
+    //     break;
+    // }
+    // await controller.updateSetting(_res);
+    // refreshSetting();
+    // updateView();
+  }
+
+  @override
+  Future updateSetting(GeneralSetting item) async {
+    
   }
 }

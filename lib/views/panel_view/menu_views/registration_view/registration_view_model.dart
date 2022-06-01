@@ -187,7 +187,7 @@ class RegistrationViewModel extends MenuViewModel {
   }
 
   @override
-  Future updateSetting(SettingItem item) async {}
+  Future updateSettingOld(SettingItem item) async {}
 
   void onTapRemove(int index) {
     itemList.removeAt(index);

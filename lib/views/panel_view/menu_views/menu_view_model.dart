@@ -19,9 +19,9 @@ part 'system_info_view/system_info_view_model.dart';
 part 'version_view/version_view_model.dart';
 part 'registration_view/registration_view_model.dart';
 
-abstract class MenuViewModel<T extends SettingItem> {
+abstract class MenuViewModel<T extends Setting> {
   final PanelController controller = PanelController.find();
-  
+
   String get viewID;
 
   bool _loadig = true;
@@ -46,10 +46,11 @@ abstract class MenuViewModel<T extends SettingItem> {
     controller.update([viewID]);
   }
 
-  Future updateSetting(SettingItem item);
+  Future updateSettingOld(SettingItem item);
+  Future updateSetting(T item);
 }
 
-abstract class CheckMenuViewModel<T extends Setting> extends MenuViewModel {
+abstract class CheckMenuViewModel<T extends Setting> extends MenuViewModel<T> {
   late T setting;
 
   T get loadSetting;

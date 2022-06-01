@@ -5,7 +5,7 @@ class RegistrationSetting extends Setting {
       : super(SettingType.registration.index);
   List<RegistrationSettingItem> itemList;
   @override
-  RegistrationSetting coypWith({List<RegistrationSettingItem>? itemList}) {
+  RegistrationSetting copyWith({List<RegistrationSettingItem>? itemList}) {
     return RegistrationSetting(
       itemList: itemList ?? this.itemList,
     );

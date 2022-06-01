@@ -32,5 +32,5 @@ abstract class Setting {
 
   Map<String, dynamic> toMap();
 
-  Setting coypWith();
+  Setting copyWith();
 }

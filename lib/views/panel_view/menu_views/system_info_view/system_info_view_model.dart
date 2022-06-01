@@ -30,7 +30,7 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
-          updateSetting(_item.copyWith(showMenu: !_item.showMenu));
+          updateSettingOld(_item.copyWith(showMenu: !_item.showMenu));
         },
       )
     ];
@@ -46,14 +46,14 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
         check: _item.showTray,
         desc: _activateText,
         onTap: () {
-          updateSetting(_item.copyWith(showTray: !_item.showTray));
+          updateSettingOld(_item.copyWith(showTray: !_item.showTray));
         },
       ),
       RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
-          updateSetting(_item.copyWith(showMenu: !_item.showMenu));
+          updateSettingOld(_item.copyWith(showMenu: !_item.showMenu));
         },
       ),
     ];
@@ -69,14 +69,14 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
         check: _item.showTray,
         desc: _activateText,
         onTap: () {
-          updateSetting(_item.copyWith(showTray: !_item.showTray));
+          updateSettingOld(_item.copyWith(showTray: !_item.showTray));
         },
       ),
       RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
-          updateSetting(_item.copyWith(showMenu: !_item.showMenu));
+          updateSettingOld(_item.copyWith(showMenu: !_item.showMenu));
         },
       ),
     ];
@@ -91,21 +91,21 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
         check: _item.showTray,
         desc: _activateText,
         onTap: () {
-          updateSetting(_item.copyWith(showTray: !_item.showTray));
+          updateSettingOld(_item.copyWith(showTray: !_item.showTray));
         },
       ),
       RadioMenuItem(
         check: _item.showMenu,
         desc: _menuText,
         onTap: () {
-          updateSetting(_item.copyWith(showMenu: !_item.showMenu));
+          updateSettingOld(_item.copyWith(showMenu: !_item.showMenu));
         },
       ),
     ];
   }
 
   @override
-  Future updateSetting(SettingItem item) async {
+  Future updateSettingOld(SettingItem item) async {
     SystemSetting _res = setting;
     SystemItem _item = item as SystemItem;
     switch (item.type) {
@@ -113,16 +113,16 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
       case SettingItemType.startUp:
         return;
       case SettingItemType.cpu:
-        _res = _res.coypWith(cpuItem: _item);
+        _res = _res.copyWith(cpuItem: _item);
         break;
       case SettingItemType.memory:
-        _res = _res.coypWith(memoryItem: _item);
+        _res = _res.copyWith(memoryItem: _item);
         break;
       case SettingItemType.battery:
-        _res = _res.coypWith(batteryItem: _item);
+        _res = _res.copyWith(batteryItem: _item);
         break;
       case SettingItemType.disk:
-        _res = _res.coypWith(diskItem: _item);
+        _res = _res.copyWith(diskItem: _item);
         break;
       case SettingItemType.network:
         break;

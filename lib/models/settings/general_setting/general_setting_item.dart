@@ -13,7 +13,6 @@ class GeneralItem extends SettingItem {
         startUpLaunch = startUpLaunch ?? false,
         checkUpdate = checkUpdate ?? true,
         super(SettingItemType.general.index);
-  
 
   // Runner
   bool invert;

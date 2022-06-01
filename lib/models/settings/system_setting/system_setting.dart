@@ -38,7 +38,7 @@ class SystemSetting extends Setting {
   }
 
   @override
-  SystemSetting coypWith({
+  SystemSetting copyWith({
     SystemItem? cpuItem,
     SystemItem? memoryItem,
     SystemItem? batteryItem,
