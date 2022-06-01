@@ -48,7 +48,7 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
   final String startUpTitle = "Startup";
 
   List<RadioMenuItem> get startUpItemList {
-    final _item = setting.startUpItem;
+    final _item = setting;
     return [
       RadioMenuItem(
         check: _item.startUpLaunch,
@@ -56,7 +56,7 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
         onTap: () {
           final _value = !_item.startUpLaunch;
           controller.updateStartUpLaunch(_value);
-          updateSettingOld(_item.copyWith(startUpLaunch: _value));
+          updateSetting(_item.copyWith(startUpLaunch: _value));
         },
       ),
 
@@ -99,6 +99,8 @@ class GeneralViewModel extends CheckMenuViewModel<GeneralSetting> {
 
   @override
   Future updateSetting(GeneralSetting item) async {
-    
+    await controller.updateSetting(item);
+    refreshSetting();
+    updateView();
   }
 }

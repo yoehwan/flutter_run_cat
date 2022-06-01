@@ -135,4 +135,11 @@ class SystemInfoViewModel extends CheckMenuViewModel<SystemSetting> {
     refreshSetting();
     updateView();
   }
+
+  @override
+  Future updateSetting(SystemSetting item)async {
+    await controller.updateSetting(item);
+    refreshSetting();
+    updateView();
+  }
 }

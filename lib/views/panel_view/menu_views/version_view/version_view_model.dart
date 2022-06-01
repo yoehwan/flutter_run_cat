@@ -30,4 +30,10 @@ class VersionViewModel extends MenuViewModel {
   @override
   Future updateSettingOld(SettingItem item)async {
   }
+
+  @override
+  Future updateSetting(Setting item) {
+    // TODO: implement updateSetting
+    throw UnimplementedError();
+  }
 }

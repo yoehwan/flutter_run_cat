@@ -204,4 +204,10 @@ class RegistrationViewModel extends MenuViewModel {
     // loadRunnerList();
     // updateView();
   }
+
+  @override
+  Future updateSetting(Setting item) {
+    // TODO: implement updateSetting
+    throw UnimplementedError();
+  }
 }

@@ -72,7 +72,7 @@ class TrayController extends Controller {
 
   String _label() {
     final _generalSetting = loadGeneralSetting;
-    if (_generalSetting.runnerItem.hideLabel) {
+    if (_generalSetting.hideLabel) {
       return "";
     }
     final _system = loadSystem;
@@ -92,7 +92,7 @@ class TrayController extends Controller {
   Duration _iconDuration() {
     try {
       final _generalSetting = loadGeneralSetting;
-      final _isInvert = _generalSetting.runnerItem.invert;
+      final _isInvert = _generalSetting.invert;
       final _duration =
           _isInvert ? _defaultRevIconDuration : _defaultIconDuration;
       final _gapDuration = Duration(milliseconds: cpuUsage);

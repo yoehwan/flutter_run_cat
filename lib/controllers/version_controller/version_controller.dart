@@ -34,7 +34,7 @@ class VersionController extends Controller {
     final _setting = _settingHelper.loadSetting(SettingType.general.index);
     if (_setting != null) {
       final _generalSetting = _setting as GeneralSetting;
-      if (!_generalSetting.startUpItem.checkUpdate) return;
+      if (!_generalSetting.checkUpdate) return;
     }
   }
 
