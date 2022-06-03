@@ -2,7 +2,10 @@ import 'package:flutter_app_indicator/flutter_app_indicator.dart';
 import 'package:flutter_run_cat/controllers/controllers.dart';
 import 'package:flutter_run_cat/enums/setting_type.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
-import 'package:flutter_run_cat/utils/setting_helper.dart';
+import 'package:flutter_run_cat/repos/setting_repo/setting_impl.dart';
+import 'package:flutter_run_cat/repos/tray_repo/tray_impl.dart';
+import 'package:flutter_run_cat/use_cases/setting_use_case/setting_use_case.dart';
+import 'package:flutter_run_cat/use_cases/tray_use_case/tray_use_case.dart';
 import 'package:flutter_run_cat/utils/system_helper.dart';
 import 'package:flutter_run_cat/utils/ticker.dart';
 import 'package:flutter_run_cat/utils/window_helper.dart';
@@ -16,29 +19,51 @@ const _defaultRevIconDuration = Duration(milliseconds: 100);
 /// TODO: appIndicator make that be able to receive raw data of Icon, no path.
 /// It can be save cpu, but can be need more memory?
 class TrayController extends Controller {
-  final FlutterAppIndicator _indicator = FlutterAppIndicator();
+  final SettingUseCase settingUseCase = SettingUseCase(SettingImpl());
+
+  SystemSetting get loadSystemSetting => settingUseCase.loadSystemSetting();
+
+  GeneralSetting get loadGeneralSetting => settingUseCase.loadGeneralSetting();
+
+  void initSettingListener() {
+    settingUseCase.addSettingListener(settingListener);
+  }
+
+  void settingListener(dynamic typeIndex, dynamic value) {
+    final type = SettingType.values[typeIndex];
+    switch (type) {
+      case SettingType.general:
+        _iconTicker.update(duration: _iconDuration());
+        trayUseCase.updateLabel(_label());
+        break;
+      case SettingType.systemInfo:
+        trayUseCase.updateLabel(_label());
+        break;
+      case SettingType.registration:
+        break;
+    }
+  }
+
+  void disposeSettingListener() {
+    settingUseCase.removeSettingListener(settingListener);
+  }
+
+  final TrayUseCase trayUseCase = TrayUseCase(TrayImpl());
+
   final TrayView _trayView = TrayView('assets/cat/');
-  final SettingHelper _settingHelper = SettingHelper();
   final SystemHelper _systemHelper = SystemHelper();
   final WindowHelper _windowHelper = WindowHelper();
-  SystemSetting get loadSystemSetting {
-    final _res = _settingHelper.loadSetting(SettingType.systemInfo.index);
-    if (_res == null) return SystemSetting();
-    return _res as SystemSetting;
+
+  int cpuUsage(bool enable) {
+    return _systemHelper.cpuUsage();
   }
 
-  GeneralSetting get loadGeneralSetting {
-    final _res = _settingHelper.loadSetting(SettingType.general.index);
-    if (_res == null) return GeneralSetting();
-    return _res as GeneralSetting;
-  }
-
-  int get cpuUsage => _systemHelper.cpuUsage();
   System get loadSystem => _systemHelper.system;
 
   @override
   void onInit() async {
-    await _settingHelper.init();
+    await settingUseCase.init();
+    initSettingListener();
     await _systemHelper.init();
     super.onInit();
   }
@@ -48,22 +73,21 @@ class TrayController extends Controller {
     super.onReady();
     await _initTray();
     initTicker();
-    _settingHelper.addSettingListener(settingListener);
   }
 
   @override
   void dispose() {
-    _settingHelper.removeSettingListener(settingListener);
+    disposeSettingListener();
     super.dispose();
   }
 
   Future _initTray() async {
-    await _indicator.init(
+    await trayUseCase.init(
       title: "runCat",
       iconPath: _trayView.nextIcon(),
       label: _label(),
     );
-    await _indicator.setMenu([
+    await trayUseCase.setMenu([
       MenuItem("Preference", _windowHelper.showWindow),
       MenuDivider(),
       MenuItem("Exit", _windowHelper.closeWindow),
@@ -79,11 +103,11 @@ class TrayController extends Controller {
     final _systemSetting = loadSystemSetting;
     final _battery = _system.battery;
     return _trayView.label(
-      cpu: cpuUsage,
-      memory: _system.memory.value(_systemSetting.memoryItem.showTray),
+      cpu: cpuUsage(_systemSetting.enableCpu),
+      memory: _system.memory.value(_systemSetting.enableMemory),
       battteryStatus: _battery.statusIndex,
-      battery: _battery.value(_systemSetting.batteryItem.showTray),
-      disk: _system.disk.value(_systemSetting.diskItem.showTray),
+      battery: _battery.value(_systemSetting.enableBattery),
+      disk: _system.disk.value(_systemSetting.enableDisk),
     );
   }
 
@@ -95,7 +119,7 @@ class TrayController extends Controller {
       final _isInvert = _generalSetting.invert;
       final _duration =
           _isInvert ? _defaultRevIconDuration : _defaultIconDuration;
-      final _gapDuration = Duration(milliseconds: cpuUsage);
+      final _gapDuration = Duration(milliseconds: cpuUsage(true));
       if (_isInvert) {
         return _duration + _gapDuration;
       }
@@ -114,26 +138,11 @@ class TrayController extends Controller {
   }
 
   Future onIconTick(_) async {
-    await _indicator.setIcon(_trayView.nextIcon());
+    await trayUseCase.updateIcon(_trayView.nextIcon());
   }
 
   Future onSystemTick(int index) async {
-    await _indicator.setLabel(_label());
+    await trayUseCase.updateLabel(_label());
     _iconTicker.update(duration: _iconDuration());
-  }
-
-  void settingListener(dynamic typeIndex, dynamic value) {
-    final type = SettingType.values[typeIndex];
-    switch (type) {
-      case SettingType.general:
-        _iconTicker.update(duration: _iconDuration());
-        _indicator.setLabel(_label());
-        break;
-      case SettingType.systemInfo:
-        _indicator.setLabel(_label());
-        break;
-      case SettingType.registration:
-        break;
-    }
   }
 }

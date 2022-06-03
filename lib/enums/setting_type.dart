@@ -1,4 +1,4 @@
-enum SettingType{
+enum SettingType {
   general,
   systemInfo,
   registration,

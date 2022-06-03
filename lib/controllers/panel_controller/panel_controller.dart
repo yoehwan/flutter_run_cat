@@ -6,46 +6,43 @@ import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_impl.dart';
 import 'package:flutter_run_cat/use_cases/setting_use_case/setting_use_case.dart';
-import 'package:flutter_run_cat/utils/setting_helper.dart';
 import 'package:flutter_run_cat/utils/window_helper.dart';
 import 'package:get/get.dart';
 
 class PanelController extends Controller {
   static PanelController find() => Get.find<PanelController>();
 
-  final SettingHelper _settingHelper = SettingHelper();
   final WindowHelper _windowHelper = WindowHelper();
-  final SettingUseCase _useCase = SettingUseCase(SettingImpl());
+  final SettingUseCase settingUsecase = SettingUseCase(SettingImpl());
   @override
   void onInit() async {
-    await _settingHelper.init();
-    await _useCase.init();
+    await settingUsecase.init();
     _windowHelper.initWindow(const Size(windowMinWidth, windowMinHeight));
     super.onInit();
   }
 
   Setting? loadSetting(int typeIndex) {
-    return _settingHelper.loadSetting(typeIndex);
+    return settingUsecase.loadSetting(typeIndex);
   }
 
   void updateStartUpLaunch(bool value) {
-    _settingHelper.updateStartUpLaunch(value);
+    settingUsecase.updateStartUpLaunch(value);
   }
 
   List<Runner> loadRunnerList() {
-    return _useCase.loadRunnerList();
+    return settingUsecase.loadRunnerList();
   }
 
   Future updateRunner(Runner runner) async {
-    await _useCase.updateRunner(runner);
+    await settingUsecase.updateRunner(runner);
   }
 
   Future removeRunner(Runner runner) async {
-    await _useCase.removeRunner(runner);
+    await settingUsecase.removeRunner(runner);
   }
 
   Future updateSetting(Setting setting) async {
-    _settingHelper.updateSetting(setting);
+    settingUsecase.updateSetting(setting);
   }
 
   void hideWindow() {

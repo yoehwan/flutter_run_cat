@@ -30,7 +30,7 @@ class SystemInfoView extends MenuViewOld<SystemInfoViewModel> {
         RadioMenuWidget(
           title: viewModel.diskTitle,
           titleWidth: viewModel.maxTitleWidth,
-          itemList: viewModel.disItemList,
+          itemList: viewModel.diskItemList,
         ),
       ],
     );
