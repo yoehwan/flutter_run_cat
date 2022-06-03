@@ -1,4 +1,5 @@
 import 'package:flutter_run_cat/databases/local_box.dart';
+import 'package:flutter_run_cat/enums/setting_type.dart';
 import 'package:flutter_run_cat/models/runner/runner.dart';
 import 'package:flutter_run_cat/models/settings/setting.dart';
 import 'package:flutter_run_cat/repos/setting_repo/setting_repo.dart';
@@ -13,6 +14,18 @@ class SettingUseCase extends UseCase<SettingRepo> {
 
   void removeSettingListener(BoxCallback listener) {
     repo.removeSettingListener(listener);
+  }
+
+  GeneralSetting loadGeneralSetting() {
+    final _res = repo.loadSetting(SettingType.general.index);
+    if (_res == null) return GeneralSetting();
+    return GeneralSetting.fromMap(_res);
+  }
+
+  SystemSetting loadSystemSetting() {
+    final _res = repo.loadSetting(SettingType.systemInfo.index);
+    if (_res == null) return SystemSetting();
+    return SystemSetting.fromMap(_res);
   }
 
   Setting? loadSetting(int typeIndex) {
